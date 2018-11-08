@@ -1,0 +1,16 @@
+__pycache__/
+*.o
+*.so
+*.so.dSYM
+checkpoints/
+FlowNet2_src/checkpoints/
+!checkpoints/download.sh
+!checkpoints/README.md
+.idea/
+._fandikai*
+fandikai/
+2011_09_26_drive_0009_sync/
+bamboo_2/
+Campus/
+PERTURBED_market_3/
+result/
