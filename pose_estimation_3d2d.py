@@ -28,9 +28,6 @@ def pose_estimate_2d2d( point_1, point_2 ):
 	"""
 	:param point_1: Pixel coordinates of the previous frame
 	:param point_2: Pixel coordinates of the next frame
-	:param matches: Matching relationship between pixels before and after two frames
-	:param R:
-	:param t:
 	:return: return camera pose and ...
 	"""
 
@@ -48,9 +45,9 @@ def pose_estimate_2d2d( point_1, point_2 ):
 
 	return Fundamental_matrix, Homography_matrix, Essential_matrix
 
-def decomposeEssentialMat(InputArray_E):
+def decomposeEssentialMat(Essential_matrix):
 	"""
-	:param InputArray_E: Essential_matrix
+	:param Essential_matrix: Essential_matrix
 	:return:
 	"""
 	U, Sigma, Vt = linalg.svd(K)
@@ -59,5 +56,8 @@ def decomposeEssentialMat(InputArray_E):
 	t = U[:, 2] * 1.0
 	return OutputArray_R1, OutputArray_R2, t
 	
-def recoverPose(InputArray_E, point_1, point_2, focal, dd):
-	
+def recoverPose(Essential_matrix, point_1, point_2, focal, dd):
+	point_1 = np.float32(point_1)
+	point_2 = np.float32(point_2)
+
+	decomposeEssentialMat(Essential_matrix)
