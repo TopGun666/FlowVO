@@ -33,7 +33,7 @@ if __name__ == '__main__':
     flow = read(file)
 
     # load image
-    prev = cv2.imread('./tf_flownet2/fandikai/rgb-e55d63ab-440b-4f7d-a42b-91238424586c.png')
+    prev = cv2.imread('./rgb-e55d63ab-440b-4f7d-a42b-91238424586c.png')
 
 # calculate Mat
     w = int(prev.shape[1])
@@ -43,4 +43,4 @@ if __name__ == '__main__':
     pixel_map = coords + flow
     new_frame = cv2.remap(prev, pixel_map, None, cv2.INTER_LINEAR)
  
-    cv2.imwrite('new_frame1.png', new_frame)
+    cv2.imwrite('new_frame.png', new_frame)

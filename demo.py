@@ -20,6 +20,7 @@ if __name__ == '__main__':
 
     flownet2 = FlowNet2()
     inputs = {'input_a': im1_pl, 'input_b': im2_pl}
+    print inputs
     flow_dict = flownet2.model(inputs, LONG_SCHEDULE, trainable=False)
     pred_flow = flow_dict['flow']
 
@@ -55,18 +56,10 @@ if __name__ == '__main__':
         im1 = np.array([im1]).astype(np.float32)
         im2 = np.array([im2]).astype(np.float32)
 
-        # ckpt_file = 'FlowNet2_src/checkpoints/FlowNet2/flownet-2.ckpt-0'
-        # saver = tf.train.Saver()
-
-        #with tf.Session() as sess:
-        #    saver.restore(sess, ckpt_file)
-            # Double check loading is correct
-            #for var in tf.all_variables():
-            #  print(var.name, var.eval(session=sess).mean())
         feed_dict = {im1_pl: im1, im2_pl: im2}
         pred_flow_val = sess.run(pred_flow, feed_dict=feed_dict)
         end = time.clock()
-        print str(end - start)
+        print "time:", str(end - start)
         # Save .flo
         out_path = './result/fandikai/'
         unique_name = 'flow-' + str(uuid.uuid4())

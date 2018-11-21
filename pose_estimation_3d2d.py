@@ -54,6 +54,7 @@ def decomposeEssentialMat(Essential_matrix):
 	OutputArray_R1 = U * Sigma * Vt
 	OutputArray_R2 = U * np.transpose(Sigma) * Vt
 	t = U[:, 2] * 1.0
+	Rotation = cv2.recoverPose(Essential_matrix)
 	return OutputArray_R1, OutputArray_R2, t
 	
 def recoverPose(Essential_matrix, point_1, point_2, focal, dd):
