@@ -1,0 +1,14 @@
+NO. 1 frame.
+img.shape: (1, 376, 1241, 3)
+frame_id666: 1
+cur_t: None
+NO. 2 frame.
+img.shape: (1, 376, 1241, 3)
+frame_id666: 2
+cur_t: None
+NO. 3 frame.
+img.shape: (1, 376, 1241, 3)
+h: 376 w: 1241
+image_ref (1, 376, 1241, 3) image_cur (1, 376, 1241, 3)
+pred_flow: (1, 376, 1241, 2)
+pass#################################################################

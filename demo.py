@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     flownet2 = FlowNet2()
     inputs = {'input_a': im1_pl, 'input_b': im2_pl}
-    print inputs
+    print (inputs)
     flow_dict = flownet2.model(inputs, LONG_SCHEDULE, trainable=False)
     pred_flow = flow_dict['flow']
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     PATH = "./fandikai/"
     for i in range(len(img_seq) - 2):
         start = time.clock()
-        print 'NO.',i+1,'frame.'
+        print('NO.',i+1,'frame.')
         img_seq_str1 = ''.join(img_seq[i])
         img_dir1 = os.path.join(PATH + img_seq_str1)
         img_seq_str2 = ''.join(img_seq[i+1])
@@ -59,7 +59,7 @@ if __name__ == '__main__':
         feed_dict = {im1_pl: im1, im2_pl: im2}
         pred_flow_val = sess.run(pred_flow, feed_dict=feed_dict)
         end = time.clock()
-        print "time:", str(end - start)
+        print("time:", str(end - start))
         # Save .flo
         out_path = './result/fandikai/'
         unique_name = 'flow-' + str(uuid.uuid4())

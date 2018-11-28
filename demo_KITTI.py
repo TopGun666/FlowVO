@@ -5,15 +5,18 @@ from scipy.misc import imread, imsave
 import tensorflow as tf
 import uuid
 import time
+import cv2
 
-from FlowNet2_src import FlowNet2, LONG_SCHEDULE
-from FlowNet2_src import flow_to_image
-from FlowNet2_src import write_flow
+# from FlowNet2_src import FlowNet2, LONG_SCHEDULE
+# from FlowNet2_src import flow_to_image
+# from FlowNet2_src import write_flow
+from visual_odometry import PinholeCamera, VisualOdometry
+#coding = utf-8
 
-flags = tf.app.flags
-flags.DEFINE_integer("checkpoints_file",'FlowNet2_src/checkpoints/FlowNet2/flownet-2.ckpt-0',"save the checkpoints file")
-FLAGS = flags.FLAGS
 
+cam = PinholeCamera(1241.0, 376.0, 718.8560, 718.8560, 607.1928, 185.2157)
+vo = VisualOdometry(cam, '/home/ubuntu/users/tongpinmo/dataset/KITTI_odometry_dataset/dataset/poses/02.txt')
+traj = np.zeros((1000, 1000, 3), dtype=np.uint8)
 if __name__ == '__main__':
 
     # # Load model
@@ -24,30 +27,47 @@ if __name__ == '__main__':
 
     # Read
     img_seq = []
-    with open('./fandikai/img_seq.txt', 'r') as f:
+    with open('/home/ubuntu/users/tongpinmo/dataset/KITTI_odometry_dataset/dataset/sequences/02/image_2/img_seq.txt', 'r') as f:
         for line in f:
             img_seq.append(list(line.strip('\n').split(',')))
 
-    PATH = "./fandikai/"
-    for i in range(len(img_seq) - 2):
-        start = time.clock()
-        print 'NO.',i+1,'frame.'
-        img_seq_str1 = ''.join(img_seq[i])
-        img_dir1 = os.path.join(PATH + img_seq_str1)
-        img_seq_str2 = ''.join(img_seq[i+1])
-        img_dir2 = os.path.join(PATH + img_seq_str2)
-        i = i + 1
+    PATH = "/home/ubuntu/users/tongpinmo/dataset/KITTI_odometry_dataset/dataset/sequences/02/image_2/"
+    for img_id in range(len(img_seq) - 2):
+        # start = time.clock()
+        print'NO.', img_id + 1, 'frame.'
+        img_seq_str = ''.join(img_seq[img_id])
+        img_dir = os.path.join(PATH + img_seq_str)
+        img_id = img_id + 1
 
-        im1 = imread(img_dir1)/255.
-        im2 = imread(img_dir2)/255.
+        img = imread(img_dir, 0)/255.
+        cv2.imshow('Road facing camera', img)
+        img = np.array([img]).astype(np.float32)
+        print "img.shape:", img.shape
+        vo.update(img, img_id)
 
-        im1 = np.array([im1]).astype(np.float32)
-        im2 = np.array([im2]).astype(np.float32)
+        # end = time.clock()
+        # print("time:", str(end - start))
+        cur_t = vo.cur_t
+        print "cur_t:", cur_t
+        if(img_id > 2):
+            x, y, z = cur_t[0], cur_t[1], cur_t[2]
+        else:
+            x, y, z = 0., 0., 0.
 
+        draw_x, draw_y = int(x)+290, int(z)+90
+        true_x, true_y = int(vo.trueX)+290, int(vo.trueZ)+90
 
-        end = time.clock()
-        print "time:", str(end - start)
+        cv2.circle(traj, (draw_x, draw_y), 1, (img_id*255/len(img_seq), 255-img_id*255/len(img_seq), 0), 1)
+        cv2.circle(traj, (true_x, true_y), 1, (0,0,255), 2)
+        cv2.rectangle(traj, (10, 20), (600, 60), (0, 0, 0), -1)
+        text = "Coordinates: x=%2fm y=%2fm z=%2fm"%(x, y, z)
+        cv2.putText(traj, text, (20, 40), cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 1, 8)
 
+        # cv2.imshow('Road facing camera', img)
+        cv2.imshow('Trajectory', traj)
+        cv2.waitKey(1)
+
+    cv2.imwrite('map.png', traj)
 
 
 
