@@ -24,10 +24,6 @@ if __name__ == '__main__':
     flow_dict = flownet2.model(inputs, LONG_SCHEDULE, trainable=False)
     pred_flow = flow_dict['flow']
 
-    # Feed forward
-    # im1 = imread('FlowNet2_src/example/0000000000.png')/255.
-    # im2 = imread('FlowNet2_src/example/0000000001.png')/255.
-
     ckpt_file = 'FlowNet2_src/checkpoints/FlowNet2/flownet-2.ckpt-0'
     saver = tf.train.Saver()
 
