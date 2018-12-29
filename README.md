@@ -31,6 +31,7 @@ If installation is successful, you should see the following:
 Notice that the model itself will handle the RGB to BGR operation for you. And please be care about your input scale and datatype.
 
 ### Performance (w/o fine-tuning)
+#### Flow part
 
 | Model       | KITTI2012 Train EPE     |  KITTI2015 Train EPE     |  KITTI2015 Train F1     |  Sintel Final Train EPE |
 |-------------|--------|--------|--------|--------|
@@ -40,14 +41,25 @@ Notice that the model itself will handle the RGB to BGR operation for you. And p
 
 FlowNetS and FlowNetC are better than paper, but FlowNet2 is slightly worse.
 
+#### VO part 
+We test it on a few KITTI dataset sequences.The results are as follows.
+![kitti02](/results_u/kitti02.png?raw=true)
+![kitti05](/results_u/kitti05.png?raw=true)
+![kitti07](/results_u/kitti07.png?raw=true)
+![kitti08](/results_u/kitti08.png?raw=true)
+![compare](/results_u/compare.png?raw=true)
+
+
+
 ### TODO
 * Add fine-tune mode
 * Remove the `training_schedule` variable from inference mode.
-* Complete VO module
 
 
 ### Reference
 [1] E. Ilg, N. Mayer, T. Saikia, M. Keuper, A. Dosovitskiy, T. Brox
 FlowNet 2.0: Evolution of Optical Flow Estimation with Deep Networks,
 IEEE Conference in Computer Vision and Pattern Recognition (CVPR), 2017.
+[2]Li, R., Wang, S., Long, Z., Gu, D.: Undeepvo: Monocular visual odometry through unsupervised deep learning. arXiv preprint arXiv:1709.06841 (2017)
+[3]Mur-Artal, R., Tard´os, J.D.: Orb-slam2: An open-source slam system for monocular, stereo, and rgb-d cameras. IEEE Transactions on Robotics 33(5), 1255–1262 (2017)
 

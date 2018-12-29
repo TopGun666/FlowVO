@@ -20,8 +20,8 @@ def featureTracking(image_ref, image_cur, sess, pred_flow, image_ref_tensor, ima
 	y_coords, x_coords = np.mgrid[0:h, 0:w]
 	kp1 = np.float32(np.dstack([x_coords, y_coords]))
 	kp2 = kp1 + pred_flow_val
-	kp1 = np.reshape(kp1, (466616, 2))
-	kp2 = np.reshape(kp2, (466616, 2))
+	kp1 = np.reshape(kp1, (453620, 2))
+	kp2 = np.reshape(kp2, (453620, 2))
 	return kp1, kp2
 
 class PinholeCamera:

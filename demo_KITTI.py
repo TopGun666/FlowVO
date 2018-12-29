@@ -16,8 +16,8 @@ flags.DEFINE_string("ckpt_file", "FlowNet2_src/checkpoints/FlowNet2/flownet-2.ck
 FLAGS = flags.FLAGS
 
 
-cam = PinholeCamera(1241.0, 376.0, 718.8560, 718.8560, 607.1928, 185.2157)
-vo = VisualOdometry(cam, '/home/ubuntu/users/tongpinmo/dataset/KITTI_odometry_dataset/dataset/poses/02.txt')
+cam = PinholeCamera(1226.0, 370.0, 718.8560, 718.8560, 607.1928, 185.2157)
+vo = VisualOdometry(cam, '/home/ubuntu/users/tongpinmo/dataset/KITTI_odometry_dataset/dataset/poses/05.txt')
 traj = np.zeros((1200, 1200, 3), dtype=np.uint8)
 if __name__ == '__main__':
 
@@ -27,8 +27,8 @@ if __name__ == '__main__':
     # sess = tf.Session()
     # saver.restore(sess, ckpt_file)
 
-    image_ref_tensor = tf.placeholder(tf.float32, [1, 376, 1241, 3])
-    image_cur_tensor = tf.placeholder(tf.float32, [1, 376, 1241, 3])
+    image_ref_tensor = tf.placeholder(tf.float32, [1, 370, 1226, 3])
+    image_cur_tensor = tf.placeholder(tf.float32, [1, 370, 1226, 3])
     flownet2 = FlowNet2()
     inputs = {'input_a': image_ref_tensor, 'input_b': image_cur_tensor}
 
@@ -40,11 +40,11 @@ if __name__ == '__main__':
 
     # Read
     img_seq = []
-    with open('/home/ubuntu/users/tongpinmo/dataset/KITTI_odometry_dataset/dataset/sequences/02/image_2/img_seq.txt', 'r') as f:
+    with open('/home/ubuntu/users/tongpinmo/dataset/KITTI_odometry_dataset/dataset/sequences/05/image_2/img_seq.txt', 'r') as f:
         for line in f:
             img_seq.append(list(line.strip('\n').split(',')))
 
-    PATH = "/home/ubuntu/users/tongpinmo/dataset/KITTI_odometry_dataset/dataset/sequences/02/image_2/"
+    PATH = "/home/ubuntu/users/tongpinmo/dataset/KITTI_odometry_dataset/dataset/sequences/05/image_2/"
     for img_id in range(len(img_seq) - 2):
         # start = time.clock()
         print'NO.', img_id + 1, 'frame.'
@@ -81,8 +81,8 @@ if __name__ == '__main__':
         draw_x, draw_y = int(x)+290, int(z)+90
         true_x, true_y = int(vo.trueX)+290, int(vo.trueZ)+90
 
-        cv2.circle(traj, (draw_x, draw_y), 1, (img_id*255/len(img_seq), 255-img_id*255/len(img_seq), 0), 1)
-        cv2.circle(traj, (true_x, true_y), 1, (0, 0, 255), 2)
+        cv2.circle(traj, (draw_x+400, draw_y+400), 1, (img_id*255/len(img_seq), 255-img_id*255/len(img_seq), 0), 1)
+        cv2.circle(traj, (true_x+400, true_y+400), 1, (0, 0, 255), 2)
         cv2.rectangle(traj, (10, 20), (600, 60), (0, 0, 0), -1)
         text = "Coordinates: x=%2fm y=%2fm z=%2fm"%(x, y, z)
         cv2.putText(traj, text, (20, 40), cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 1, 8)
@@ -91,7 +91,7 @@ if __name__ == '__main__':
         cv2.imshow('Trajectory', traj)
         cv2.waitKey(1)
 
-    cv2.imwrite('map_2.png', traj)
+    cv2.imwrite('map_5.png', traj)
 
 
 

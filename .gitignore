@@ -14,3 +14,6 @@ bamboo_2/
 Campus/
 PERTURBED_market_3/
 result/
+*.png
+._*
+*.DS_Store
